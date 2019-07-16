@@ -1,6 +1,7 @@
 # Ontology
 
 ## Technology
+![architecture](ontology.png)
 
 ### ONT ID
 ID app: https://onto.app/
