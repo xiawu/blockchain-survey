@@ -32,8 +32,73 @@
 | Qtum                        |   6336                                |                  |   |
 | Basic Attention Token                        |                                   |                  | https://basicattentiontoken.org/  |
 
+## bitcoin
+[Summary](bitcoin.md)
+
+## ethereum
+
+## ripple 
+[Summary](ripple.md)
+
+## Litecoin
+
+## Bitcoin Cash
+
+## EOS
+[Summary](eos.md)
+
+## Binance Coin
+
+## Tether
+
+## Bitcoin SV
+
+## TRON
+[Summary](tron.md)
+
+## Cardano
+[Summary](cardano.md)
+
+## Stellar
+[Summary](stellar.md)
+
+## UNUS SED LEO
+
+## Monero
+
+## Dash
+[Summary](dash.md)
+
+## Chainlink
+[Summary](chainlink.md)
+
+## NEO
+[Summary](neo.md)
+
+## IOTA
+
+## Cosmos
+[Summary](cosmos.md)
+
+## Ethereum Classic
+
+## NEM
+[Summary](nem.md)
+
+## Zcash
+
 ## ontology
 [Summary](ontology.md)
 
 ![architecture](ontology.png)
+
+## Maker
+[Summary](maker.md)
+
+## Tezos
+
+## Qtum
+
+## Basic Attention Token
+[Summary](bat.md)
 
