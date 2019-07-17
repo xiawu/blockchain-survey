@@ -1,4 +1,4 @@
-# blockchain-survey
+# blockchain survey
 
 ## Statistics
 ### Number of full nodes
