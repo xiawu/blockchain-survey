@@ -62,6 +62,9 @@
 ## Stellar
 [Summary](stellar.md)
 
+![architecture](stellar.png)
+
+
 ## UNUS SED LEO
 
 ## Monero
