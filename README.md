@@ -72,6 +72,10 @@
 ## Chainlink
 [Summary](chainlink.md)
 
+![architecture](chainlink.png)
+
+https://docs.chain.link/docs/architecture-overview
+
 ## NEO
 [Summary](neo.md)
 
@@ -79,6 +83,8 @@
 
 ## Cosmos
 [Summary](cosmos.md)
+![architecture](cosmos.svg)
+
 
 ## Ethereum Classic
 
@@ -101,4 +107,13 @@
 
 ## Basic Attention Token
 [Summary](bat.md)
+
+## Blockstack
+[Summary](blockstack.md)
+
+![architecture](blockstack-0.jpeg)
+
+![architecture](blockstack.jpeg)
+
+https://medium.com/tokenmonk/blockstack-the-fat-protocol-architecture-explained-1beedd745aaa
 
