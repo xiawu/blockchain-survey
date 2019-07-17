@@ -48,6 +48,9 @@
 [Summary](eos.md)
 
 ## Binance Coin
+![architecture](binance.png)
+
+consensus - https://github.com/tendermint/tendermint/blob/master/docs/spec/consensus/consensus.md
 
 ## Tether
 
