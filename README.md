@@ -56,6 +56,8 @@
 ## TRON
 [Summary](tron.md)
 
+![architecture](tron.jpg)
+
 ## Cardano
 [Summary](cardano.md)
 
