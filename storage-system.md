@@ -37,12 +37,12 @@ https://swarm-guide.readthedocs.io/en/latest/architecture.html#architecture
 #### Overlay network
 
 ##### Logarithmic distance
-![swarm-logarithmic-distance.svg](swarm xor)
+![swarm xor](swarm-logarithmic-distance.svg)
 
 ##### Topology
-![swarm-topology.svg](swarm topology)
+![swarm topology](swarm-topology.svg)
 
-![swarm-kademlia-table.svg](swarm kedemlia table)
+![swarm kedemlia table](swarm-kademlia-table.svg)
 
 ##### Bootstrapping and discovery
 The protocol is as follows: Initially, each node has zero as their saturation depth. Nodes keep advertising to their connected peers info about their saturation depth as it changes. If a node establishes a new connection, it notifies each of its peers about this new connection if their proximity order relative to the respective peer is not lower than the peer’s advertised saturation depth (i.e., if they are sufficiently close by). The notification is always sent to each peer that shares a PO bin with the new connection. These notification about connected peers contain full overlay and underlay address information. Light nodes that do not wish to relay messages and do not aspire to build up a healthy kademlia are discounted.
@@ -54,7 +54,7 @@ After a sufficient number of nodes are connected, a bin becomes saturated, and t
 Such a network can readily be used for a forwarding-style messaging system. Swarm’s PSS is based on this. Swarm also uses this network to implement its storage solution.
 
 #### Distributed preimage archive
-!(swarm DPA)[swarm-dpa-chunking.svg]
+![swarm DPA](swarm-dpa-chunking.svg)
 
 A DPA is opinionated about which nodes store what content and this implies a few more restrictions:
 (1) load balancing of content among nodes is required and is accomplished by splitting content into equal sized chunks (chunking);
@@ -83,7 +83,7 @@ Smart synchronisation is a protocol of distribution which makes sure that these 
 
 Apart from access count which nodes use to determine which content to delete if capacity limit is reached, `chunks also store their first entry index`. This is an arbitrary monotonically increasing index, and nodes publish their current top index, so `virtually they serve as timestamps of creation`. This index helps keeping track what content to synchronise with a peer.
 
-![swarm-syncing-high-level.svg](swarm syncing)
+![swarm syncing](swarm-syncing-high-level.svg)
  
 #### Data layer
 There are 4 different layers of data units relevant to Swarm:
@@ -103,7 +103,7 @@ The local store consists of an in-memory fast cache (memory store) and a persist
 
 The NetStore is extending local store to a distributed storage of Swarm and implements the distributed preimage archive (DPA).
 
-![swarm-storage-layer.svg](swarm storage layer)
+![swarm storage layer](swarm-storage-layer.svg)
 
 ##### Files
 The component that chunks the files into the merkle tree is called the chunker.
@@ -112,7 +112,7 @@ Our chunker implements the bzzhash algorithm which is parallellized tree hash ba
 ##### Manifests
 
 #### Components
-![swarm-high-level-components.svg](swarm-high-level-components)
+![swarm-high-level-components](swarm-high-level-components.svg)
 
 ### Technology
 * BZZ - Scalable distributed storage solution and content distribution network
