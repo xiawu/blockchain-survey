@@ -37,12 +37,12 @@ https://swarm-guide.readthedocs.io/en/latest/architecture.html#architecture
 #### Overlay network
 
 ##### Logarithmic distance
-!(swarm xor)[swarm-logarithmic-distance.svg]
+![swarm-logarithmic-distance.svg](swarm xor)
 
 ##### Topology
-!(swarm topology)[swarm-topology.svg]
+![swarm-topology.svg](swarm topology)
 
-!(swarm kedemlia table)[swarm-kademlia-table.svg]
+![swarm-kademlia-table.svg](swarm kedemlia table)
 
 ##### Bootstrapping and discovery
 The protocol is as follows: Initially, each node has zero as their saturation depth. Nodes keep advertising to their connected peers info about their saturation depth as it changes. If a node establishes a new connection, it notifies each of its peers about this new connection if their proximity order relative to the respective peer is not lower than the peer’s advertised saturation depth (i.e., if they are sufficiently close by). The notification is always sent to each peer that shares a PO bin with the new connection. These notification about connected peers contain full overlay and underlay address information. Light nodes that do not wish to relay messages and do not aspire to build up a healthy kademlia are discounted.
@@ -83,8 +83,36 @@ Smart synchronisation is a protocol of distribution which makes sure that these 
 
 Apart from access count which nodes use to determine which content to delete if capacity limit is reached, `chunks also store their first entry index`. This is an arbitrary monotonically increasing index, and nodes publish their current top index, so `virtually they serve as timestamps of creation`. This index helps keeping track what content to synchronise with a peer.
 
-!(swarm syncing)[swarm-syncing-high-level.svg]
+![swarm-syncing-high-level.svg](swarm syncing)
  
+#### Data layer
+There are 4 different layers of data units relevant to Swarm:
+
+* message: p2p RLPx network layer. Messages are relevant for the devp2p wire protocols
+
+* chunk: fixed size data unit of storage in the distributed preimage archive
+
+* file: the smallest unit that is associated with a mime-type and not guaranteed to have integrity unless it is complete. This is the smallest unit semantic to the user, basically a file on a filesystem.
+
+* collection: a mapping of paths to files is represented by the swarm manifest.
+This layer has a mapping to file system directory tree. Given trivial routing conventions, a url can be mapped to files in a standardised way, allowing manifests to mimic site maps/routing tables. As a result, Swarm is able to act as a webserver, a virtual cloud hosting service.
+
+The actual storage layer of Swarm consists of two main components, the localstore and the netstore.
+
+The local store consists of an in-memory fast cache (memory store) and a persistent disk storage (dbstore).
+
+The NetStore is extending local store to a distributed storage of Swarm and implements the distributed preimage archive (DPA).
+
+![swarm-storage-layer.svg](swarm storage layer)
+
+##### Files
+The component that chunks the files into the merkle tree is called the chunker.
+Our chunker implements the bzzhash algorithm which is parallellized tree hash based on an arbitrary chunk hash.
+
+##### Manifests
+
+#### Components
+![swarm-high-level-components.svg](swarm-high-level-components)
 
 ### Technology
 * BZZ - Scalable distributed storage solution and content distribution network
