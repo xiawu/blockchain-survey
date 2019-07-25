@@ -296,3 +296,19 @@ Storage node operators can elect to automatically trust a Storj Labs provided co
 
 ## Blockstack
 
+### Message Transport
+Filecoin uses libp2p for all network communications. libp2p provides transport-agnostic services for peer discovery, naming, routing, pubsub channels and a distributed record store, and there are full or partial implementations in a number of languages.
+
+### Blockstack Naming Service (BNS)
+a BNS node implements a replicated name database. Each BNS node keeps itself synchronized to all of the other ones in the world, so queries on one BNS node will be the same on other nodes. BNS nodes allow a name’s owner to bind up to 40Kb of off-chain state to their name, which will be replicated to all BNS nodes via the Atlas network.
+
+BNS nodes extract the name database log from an underlying blockchain (Blockstack Core currently uses Bitcoin, and had used Namecoin in the past). BNS uses the blockchain to establish a shared “ground truth” for the system: as long as two nodes have the same view of the blockchain, then they will build up the same database.
+
+### Atlas Network
+Atlas is designed to integrate with BNS in order to allow users to store name state off-chain, encoded as a DNS zone file. The overwhelmingly-common use-cases in Blockstack are:
+* Storing a name’s routing information for its owners’ Gaia datastores.
+* Storing BNS subdomain transactions and associated state.
+
+### Gaia
+![gaia](blockstack-gaia.png)
+
