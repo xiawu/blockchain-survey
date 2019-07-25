@@ -159,4 +159,140 @@ When your data is retrieved it will only get decrypted on your local Swarm node.
 * Swarm DB - Trustless database services
 
 
+## Storj
+
+### Status
+* Release Tardigrade.io - Decentralized cloud storage
+
+* With Tardigrade cloud storage, your files are encrypted and split into pieces client-side before being distributed across our network of high-performance storage nodes.
+
+* Performance
+With multi-threaded, concurrent downloads you can get your files 20% faster than Amazon S3.
+
+* Security & Privacy
+No one can compromise or view your data without your permission. Client-side AES-256-GCM encryption is standard on every file.
+
+* Durability
+`Reed-Solomon erasure coding` enables the highest levels of durability for all files uploaded to the Tardigrade network.
+
+* Open Source
+Audit our code, read our white paper, and know exactly how everything works. Check us out on GitHub.
+
+* Affordable
+Predictable, flat pricing. S3-compatible object storage that is a fraction of the price.
+
+* Easy to Use
+With our simple s3-compatible library, you can use a single function for uploading and downloading.
+
+* waitlist
+The first 10,000 developers on the Tardigrade.io waitlist will get 1TB free for their first 30 days after production launch.
+
+* Become a Storage Node Operator
+Nodes can begin earning STORJ tokens and building node reputation ahead of our beta (Pioneer release) and production (Voyager release) launches coming later this year.
+
+`
+Revenue caculations: https://storj.io/storage-node-estimator/
+Revenue by Storj token equal to $10 per TB per month
+`
+
+* The Open Source Partner Program
+With this program, every time one of our OS approved partners has a user that stores data on Tardigrade using our connectors, we will share a generous portion of every dollar earned with our open-source partners.
+Forever. . .
+
+* Innovations in Token Governance
+https://storj.io/blog/2018/12/an-overview-of-tokens-uses-flows-and-policies-at-storj-labs/
+  - The STORJ token is used to provide incentives for storage node operators to contribute stable, performant, long-term storage and bandwidth to the network
+  - The STORJ token provides users with an effective and efficient option for buying storage and bandwidth. While we quote prices today in dollars, users can pay in STORJ token or fiat.
+  - The STORJ token enables Storj Labs to efficiently and effectively conduct the network. Specifically, it enables us to compensate large numbers of operators (there were over 70,000 operators in the V2 network) in large numbers of countries (over 180 countries and territories in V2). The token also enables programmatic payments (e.g. via smart contracts), and micropayments.
+  - STORJ token is used to provide demand partners (e.g. the many members of our Open Source Partner Program) with incentives for driving demand to the network.
+  - STORJ token serves as a medium of exchange for Satellite operators within the Storj Labs “Tardigrade” branded and curated storage network.
+  - STORJ token can serve as a medium of exchange in completely decentralized, non-Tardigrade networks.
+
+
+### Storage Nodes
+Storage nodes are selected to store data based on various criteria: ping time, latency, throughput, bandwidth caps, sufficient disk space, geographic location, uptime, history of responding accurately to audits, and so forth. In return for their service, nodes are paid.
+
+Because storage nodes are selected via changing variables external to the protocol, node selection is an explicit, non-deterministic process in our framework. This means that we must keep track of which nodes were selected for each upload via a small amount of metadata; we can’t select nodes for storing data implicitly or deterministically as in a system like Dynamo [25]. As with GFS [26], HDFS [27], or Lustre [28], this decision implies the requirement of a metadata storage system to keep track of selected nodes.
+
+### Uplink
+This peer class represents any application or service that implements libuplink and wants to store and/or retrieve data.
+This peer class performs encryption, erasure encoding, and coordinates with the other peer classes on behalf of the customer/client.
+
+### Satellite
+This peer class participates in the node discovery system, caches node address information, stores per-object metadata, maintains storage node reputation, aggre-gates billing data, pays storage nodes, performs audits and repair, and manages authorization and user accounts.
+The Satellite instance is made up of these components:
+* A full node discovery cache
+* A per-object metadata database indexed by encrypted path
+* An account management and authorization system
+* A storage node reputation, statistics, and auditing system
+* A data repair service
+* A storage node payment service
+
+### Authorization
+Our initial metadata authorization scheme uses macaroons.
+We use macaroons to restrict which operations can be applied and to which encrypted paths they can be applied
+
+* What are macaroons?
+You can think of a macaroon as a cookie, in a way. Cookies are small bits of data that your browser stores and sends to a particular website when it makes a request to that website. If you're logged into a website, that cookie can store a session ID, which the site can look up in its own database to check who you are and give you the appropriate content.
+
+A macaroon is similar: it's a small bit of data that a client (like lncli) can send to a service (like lnd) to assert that it's allowed to perform an action. The service looks up the macaroon ID and verifies that the macaroon was initially signed with the service's root key. However, unlike a cookie, you can delegate a macaroon, or create a version of it that has more limited capabilities, and then send it to someone else to use.
+
+Just like a cookie, a macaroon should be sent over a secure channel (such as a TLS-encrypted connection), which is why we've also begun enforcing TLS for RPC requests in this release. Before SSL was enforced on websites such as Facebook and Google, listening to HTTP sessions on wireless networks was one way to hijack the session and log in as that user, gaining access to the user's account. Macaroons are similar in that intercepting a macaroon in transit allows the interceptor to use the macaroon to gain all the privileges of the legitimate user.
+
+### Audits
+Auditors, such as Satellites, will send a challenge to a storage node and expect a valid response. A challenge is a request to the storage node in order to prove it has the expected data.
+
+Some distributed storage systems, including the previous version of Storj [37], discuss Merkle tree proofs, in which audit challenges and expected responses are generated at the time of storage as a form of proof of retrievability [47]. By using a Merkle tree [72], the amount of metadata needed to store these challenges and responses is negligible.
+
+Proofs of retrievability can be broadly classified into limited and unlimited schemes.The Merkle tree variety used in our previous version is one such limited scheme. Unfortunately, in such a scheme, the challenges and expected responses must be pre- generated.As we learned with our previous version, without a periodic regeneration of these challenges, a storage node can begin to pass most audits without storing all of the requested data by keeping track of which challenges exist and then saving only the expected responses. 
+
+we began to consider Reed-Solomon erasure coding to help us solve this problem.
+An assumption in our storage system is that most storage nodes behave rationally, and incentives are aligned such that most data is stored faithfully. As long as that assumption holds, Reed-Solomon is able to detect errors and even correct them, via mechanisms
+ such as the Berlekamp-Welch error correction algorithm [39, 73]. We are already using Reed-Solomon erasure coding [59] on small ranges (stripes), so as discussed in the HAIL system [41], we use erasure coding to read a single stripe at a time as a challenge and then validate the erasure share responses. This allows us to run arbitrary audits without pre-generated challenges.
+
+### Storage node reputation
+Storage node reputation can be divided into four subsystems.
+
+The first subsystem is a proof of work identity system, the second subsystem is the initial vetting process, the third subsystem is a filtering system, and finally, the fourth system is a preference system.
+
+The goal of the first system is to require a short proof that the storage node operator is invested, through time, stake, or resources.
+Initially, we are using proof of work. storage nodes require a proof of work as part of identity generation.
+
+We will let Satellite operators set per-Satellite minimum difficulty required for new data storage.
+
+The second subsystem slowly allows nodes to join the network. When a storage node first joins the network, its reliability is unknown. As a result, it will be placed into a vetting process until enough data is known about it.
+
+Every time a file is uploaded, the Satellite will select a small number of additional unvetted storage nodes to include in the list of target nodes. The Reed-Solomon parameters will be chosen such that these unvetted storage nodes will not affect the durability of the file, but will allow the network to test the node with a small fraction of data until we are sure the node is reliable. After the storage node has successfully stored enough data for a long enough period (at least one payment period), the Satellite will then start including that storage node in the standard selection process used for general uploads. It will also give the node a signed message claiming that the vetting process is completed, and that the storage node may now enter other nodes’ routing tables. Importantly, storage nodes get paid during this vetting period, but don’t receive as much data.
+
+The filtering system is the third subsystem; it blocks bad storage nodes from participating. In addition to simply not having done a sufficient proof of work, certain actions a storage node can take are disqualifying events. The reputation system will be used to filter these nodes out from future uploads, regardless of where the node is in the vetting process. Actions that are disqualifying include: failing too many audits; failing to return data, with reasonable speed; and failing too many uptime checks.
+
+The last subsystem is a preference system. After disqualified storage nodes have been filtered out, remaining statistics collected during audits will be used to establish a prefer- ence for better storage nodes during uploads.These statistics include performance char- acteristics such as throughput and latency, history of reliability and uptime, geographic location, and other desirable qualities.
+
+### Payments
+Payments by clients may be through any mechanism (STORJ, credit card, invoice, etc.), but payments to storage nodes are via the Ethereum-based ERC20 [77] STORJ token.
+
+### Bandwidth allocation
+To solve this problem, we turn to Neuman’s Proxy-based authorization and accounting for distributed systems [79]. This accounting protocol more correctly measures re- source usage in a delegated and decentralized way.
+
+### Satellite reputation
+Storage node operators can elect to automatically trust a Storj Labs provided collec- tion of recommended Satellites that adhere to a strict set of quality controls and payment service level agreements (SLAs). To protect storage node operators, if a Satellite operator wants to be included in the “Tardigrade” approved list, the Satellite operator may be re- quired to adhere to a set of operating, payment, and pricing parameters and to sign a business arrangement with Storj Labs. See section 4.21 for more details.
+
+
+
+
+
+## IPFS
+
+### protocol overview
+![protocol overview](ipfs-sketch.png)
+
+![protocol overview](ipfs-overview.png)
+
+### Proof-of-Replication
+![por](ipfs-por.png)
+
+### Proof-of-Spacetime
+![pos](ipfs-pos.png)
+
+## Blockstack
 

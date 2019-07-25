@@ -230,6 +230,7 @@ Neighbor Censorship
 Chunk Propagation
 Querying Chunk Inventories
 Peer Selection
+
 Atlas peers self-organize into an unstructured peer-to-peer network. The Atlas peer network is a random K-regular graph. Each node maintains K neighbors chosen at random from the set of Atlas peers.
 
 Atlas nodes select peers by carrying out an unbiased random walk of the peer graph. When “visiting” a node N, it will ask for N’s neighbors and then “step” to one of them with a probability dependent on N’s out-degree and the neighbor’s in-degree.
@@ -250,7 +251,7 @@ The algorithm was adapted from the work from Lee, Xu, and Eun in the proceedings
 The reason Atlas uses an unstructured random peer network instead of a distributed hash table (DHT) is that DHTs are susceptbile to Sybil attacks. An adaptive adversary can insert malicious nodes into the DHT in order to stop victims from resolving chunks or finding honest neighbors.
 
 * Chunk Censorship
-In a DHT, an attacker can censor a chunk by inserting nodes into the peers’ routing tables such that the attacker takes control over all of the chunk’s hash buckets. It can do so at any point in time after the chunk was first stored, because only the peers who maintain the chunk’s hash bucket have to store it. This is a fundamental problem with structured overlay networks that perform request routing based on content hash—they give the attacker insight as to the path(s) the queries take through the peer graph, and thus reduce the number of paths the attacker must disrupt in order to censor the chunk.
+In a DHT, an attacker can censor a chunk by inserting nodes into the peers’ routing tables such that the attacker takes control over all of the chunk’s hash buckets. It can do so at any point in time after the chunk was first stored, because only the peers who maintain the chunk’s hash bucket have to store it. `This is a fundamental problem with structured overlay networks that perform request routing based on content hash—they give the attacker insight as to the path(s) the queries take through the peer graph, and thus reduce the number of paths the attacker must disrupt in order to censor the chunk.`
 
 Atlas uses an unstructured overlay network combined with a 100% chunk replication strategy in order to maximize the amount of work an adversary has to do to censor a chunk. In Atlas, all peers replicate a chunk, and the paths the chunk take through the network are independent of the content and randomized by the software (so the paths cannot be predicted in advance). The attacker’s only recourse is to quickly identify the nodes that can serve the chunk and partition them from the rest of the network in order to carry out a censorship attack. This requires them to have visibility into the vast majority of network links in the Atlas network (which is extremely difficult to do, because in practice Atlas peers maintain knowledge of up to 65536 neighbors and only report 10 random peers when asked).
 
