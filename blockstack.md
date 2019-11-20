@@ -111,3 +111,18 @@ Stacks (STX) token is the native utility token of the Blockstack network and the
 
 ## Blockstack bounty
 https://signature.vc
+
+
+## blockstack browser
+https://blockstack.org/try-blockstack
+https://github.com/blockstack/blockstack-browser/tree/master/app
+
+## Usage
+### Running a Blockstack Core Node
+```
+pip install blockstack
+```
+```
+blockstack-core configure
+```
+
