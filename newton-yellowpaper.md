@@ -29,7 +29,9 @@
 * sonm
 * goldem
 * gridcoin
+
 * dfinity
+https://dfinity.org/static/dfinity-consensus-cn-9aa3a1d4bd42079fd3c413acbbbd8c10.pdf
 
 ## 去中心化层次结构
 
