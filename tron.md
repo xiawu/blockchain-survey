@@ -68,6 +68,8 @@ TRX is the name of the currency used in the TRON network.
 
 ## TRON Protocol
 
+[TRON Protobuf protocol](TRON_Protobuf_Protocol_document.md)
+
 ### Account
 
 * TRON uses an account model
